@@ -1,4 +1,4 @@
-from rest_framework import serializers #Esta biblioteca es una extensión del framework Django que proporciona herramientas y utilidades adicionales para construir APIs web
+from rest_framework import serializers
 from .models import Proyect
 
 class ProyectSerializer(serializers.ModelSerializer):

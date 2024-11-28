@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Create Project</h1>
+<form id="project-form" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="technology" class="form-label">Technology</label>
+        <input type="text" class="form-control" id="technology" name="technology" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<script>
+    $('#project-form').on('submit', function(e) {
+        e.preventDefault();  // Evita que se envíe el formulario de forma normal
+
+        const data = {
+            title: $('#title').val(),
+            description: $('#description').val(),
+            technology: $('#technology').val(),
+        };
+
+        $.ajax({
+            url: '{% url "create" %}',  // Asegúrate de que la URL esté correctamente configurada
+            type: 'POST',
+            data: {
+                'title': data.title,
+                'description': data.description,
+                'technology': data.technology,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'  // Token de CSRF para seguridad
+            },
+            success: function(response) {
+                alert('Project created successfully');
+                window.location.href = '/';  // Redirige a la página principal
+            },
+            error: function() {
+                alert('Error creating project');
+            }
+        });
+    });
+</script>
+{% endblock %}
